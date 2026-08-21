@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security API Exercise</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <main class="container">
+        <h1>Security API Exercise</h1>
+        <p class="subtitle">Frontend client for the x-api-key anti-pattern demo</p>
+
+        <section class="config-section">
+            <label for="apiKeyInput">x-api-key</label>
+            <input
+                type="text"
+                id="apiKeyInput"
+                placeholder="Enter your API key"
+                autocomplete="off"
+            />
+
+            <label for="baseUrlInput">Backend URL</label>
+            <input
+                type="text"
+                id="baseUrlInput"
+                value="http://127.0.0.1:8000"
+            />
+        </section>
+
+        <section class="actions-section">
+            <button id="getBtn" class="btn btn-primary">Get Protected Data</button>
+            <button id="postBtn" class="btn btn-secondary">Send POST Request</button>
+            <button id="healthBtn" class="btn btn-outline">Check Health (public)</button>
+        </section>
+
+        <section class="response-section">
+            <h2>Response</h2>
+            <div id="statusBadge" class="status-badge">—</div>
+            <pre id="responseArea" class="response-area">No request sent yet.</pre>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
