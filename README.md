@@ -33,40 +33,49 @@ frontend-api/
    ```
 
 2. Make sure the backend is running (see the `back-api` repository for setup
-   instructions).
+   instructions) and that its API key matches the one hardcoded in `app.js`
+   (see below).
 
 3. Open `index.html` directly in your browser (double-click it, or use the
    "Live Server" extension in VS Code for a smoother experience).
 
+## Configuration
+
+The `x-api-key` value and the backend URL are hardcoded directly in `app.js`:
+
+```javascript
+const API_KEY = "change-me";
+const BASE_URL = "http://127.0.0.1:8000";
+```
+
+Update `API_KEY` to match the value configured in the backend's `.env` file
+before running the demo.
+
 ## How to use
 
-1. In the **Backend URL** field, confirm it matches where your backend is running
-   (default: `http://127.0.0.1:8000`).
-2. In the **x-api-key** field, enter the API key configured in the backend's
-   `.env` file.
-3. Use the buttons to interact with the API:
-   - **Check Health (public)** — calls `GET /health`, no API key required.
-   - **Get Protected Data** — calls `GET /api/data` with the `x-api-key` header.
-   - **Send POST Request** — calls `POST /api/data` with the `x-api-key` header.
-4. The HTTP status and JSON response from the backend are displayed in the
-   **Response** section at the bottom of the page.
+Use the buttons to interact with the API:
+
+- **Check Health (public)** — calls `GET /health`, no API key required.
+- **Get Protected Data** — calls `GET /api/data` with the `x-api-key` header.
+- **Send POST Request** — calls `POST /api/data` with the `x-api-key` header.
+
+The HTTP status and JSON response from the backend are displayed in the
+**Response** section at the bottom of the page.
 
 ## Manual tests performed
 
-| # | Action                                   | Expected result                     |
-|---|-------------------------------------------|--------------------------------------|
-| 1 | Click "Check Health"                      | `200 OK`, no key required            |
-| 2 | Click "Get Protected Data" with empty key | Frontend blocks the request, asks for a key |
-| 3 | Click "Get Protected Data" with wrong key | `401 Unauthorized`                   |
-| 4 | Click "Get Protected Data" with correct key | `200 OK` with static JSON data      |
-| 5 | Click "Send POST Request" with empty key  | Frontend blocks the request, asks for a key |
-| 6 | Click "Send POST Request" with wrong key  | `401 Unauthorized`                   |
-| 7 | Click "Send POST Request" with correct key | `200 OK` with confirmation message  |
+| # | Action                                        | Expected result                |
+|---|-------------------------------------------------|---------------------------------|
+| 1 | Click "Check Health"                            | `200 OK`, no key required       |
+| 2 | Click "Get Protected Data" with a wrong `API_KEY` in app.js | `401 Unauthorized`  |
+| 3 | Click "Get Protected Data" with the correct `API_KEY` | `200 OK` with static JSON data |
+| 4 | Click "Send POST Request" with a wrong `API_KEY` in app.js | `401 Unauthorized`  |
+| 5 | Click "Send POST Request" with the correct `API_KEY` | `200 OK` with confirmation message |
 
 ## Security note
 
-The `x-api-key` is entered by the user and stored only in memory (a page input
-field) — it is **not persisted, hidden, or protected** in any way. Anyone with
-access to the browser's DevTools can see it in plain text in every request.
-This is the anti-pattern the exercise is meant to illustrate: a static API key
-sent from the client offers no real protection against a motivated attacker.
+The `x-api-key` is hardcoded directly in `app.js`, in plain text, visible to
+anyone who views the page source or opens the browser's DevTools. This is the
+anti-pattern the exercise is meant to illustrate: a static API key embedded in
+client-side code offers no real protection against a motivated attacker, since
+the client is fully under the user's control.

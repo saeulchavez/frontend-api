@@ -1,5 +1,9 @@
-const apiKeyInput = document.getElementById("apiKeyInput");
-const baseUrlInput = document.getElementById("baseUrlInput");
+// Hardcoded for this exercise, on purpose: this is exactly the anti-pattern
+// being demonstrated. A static API key embedded in client-side code is
+// visible to anyone who opens DevTools or views the page source.
+const API_KEY = "change-me";
+const BASE_URL = "http://127.0.0.1:8000";
+
 const getBtn = document.getElementById("getBtn");
 const postBtn = document.getElementById("postBtn");
 const healthBtn = document.getElementById("healthBtn");
@@ -7,11 +11,11 @@ const statusBadge = document.getElementById("statusBadge");
 const responseArea = document.getElementById("responseArea");
 
 function getBaseUrl() {
-    return baseUrlInput.value.trim().replace(/\/$/, "");
+    return BASE_URL;
 }
 
 function getApiKey() {
-    return apiKeyInput.value.trim();
+    return API_KEY;
 }
 
 function setStatus(status, ok) {
@@ -37,13 +41,7 @@ async function callEndpoint(path, method, useApiKey) {
     const headers = {};
 
     if (useApiKey) {
-        const apiKey = getApiKey();
-        if (!apiKey) {
-            setStatus("Missing API key", false);
-            setResponse("Please enter an x-api-key value before calling this endpoint.");
-            return;
-        }
-        headers["x-api-key"] = apiKey;
+        headers["x-api-key"] = getApiKey();
     }
 
     setStatus("Loading...", true);
